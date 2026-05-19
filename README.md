@@ -32,6 +32,53 @@ Qwen3.6-35B-A3B-UD-Q4_K_M.gguf  ~22G
 mmproj-F16.gguf                 ~858M
 ```
 
+Download with Hugging Face CLI:
+
+```bash
+python3 -m pip install -U huggingface_hub hf_transfer
+
+mkdir -p /data/models/qwen36-mtp-gguf
+HF_HUB_ENABLE_HF_TRANSFER=1 \
+huggingface-cli download unsloth/Qwen3.6-35B-A3B-MTP-GGUF \
+  Qwen3.6-35B-A3B-UD-Q4_K_M.gguf \
+  mmproj-F16.gguf \
+  --local-dir /data/models/qwen36-mtp-gguf
+```
+
+If Hugging Face is slow from the IDC network, use the HF mirror:
+
+```bash
+python3 -m pip install -U huggingface_hub hf_transfer
+
+mkdir -p /data/models/qwen36-mtp-gguf
+HF_ENDPOINT=https://hf-mirror.com \
+HF_HUB_ENABLE_HF_TRANSFER=1 \
+huggingface-cli download unsloth/Qwen3.6-35B-A3B-MTP-GGUF \
+  Qwen3.6-35B-A3B-UD-Q4_K_M.gguf \
+  mmproj-F16.gguf \
+  --local-dir /data/models/qwen36-mtp-gguf
+```
+
+Plain `wget` fallback:
+
+```bash
+mkdir -p /data/models/qwen36-mtp-gguf
+cd /data/models/qwen36-mtp-gguf
+
+wget -c https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf
+wget -c https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/main/mmproj-F16.gguf
+```
+
+Mirror `wget` fallback:
+
+```bash
+mkdir -p /data/models/qwen36-mtp-gguf
+cd /data/models/qwen36-mtp-gguf
+
+wget -c https://hf-mirror.com/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf
+wget -c https://hf-mirror.com/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/main/mmproj-F16.gguf
+```
+
 ## 2. Build Image
 
 Default build:
