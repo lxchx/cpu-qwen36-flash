@@ -45,10 +45,20 @@ huggingface-cli download unsloth/Qwen3.6-35B-A3B-MTP-GGUF \
   --local-dir /data/models/qwen36-mtp-gguf
 ```
 
-If Hugging Face is slow from the IDC network, use the HF mirror:
+If Python package downloads are slow, use a pip mirror:
 
 ```bash
-python3 -m pip install -U huggingface_hub hf_transfer
+python3 -m pip install -U \
+  -i https://pypi.tuna.tsinghua.edu.cn/simple \
+  huggingface_hub hf_transfer
+```
+
+For IDC machines in China, use both pip mirror and HF mirror:
+
+```bash
+python3 -m pip install -U \
+  -i https://pypi.tuna.tsinghua.edu.cn/simple \
+  huggingface_hub hf_transfer
 
 mkdir -p /data/models/qwen36-mtp-gguf
 HF_ENDPOINT=https://hf-mirror.com \
