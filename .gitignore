@@ -1,0 +1,10 @@
+models/*
+!models/.gitkeep
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.log
+__pycache__/
+.DS_Store
