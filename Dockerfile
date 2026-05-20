@@ -24,6 +24,7 @@ RUN git clone --filter=blob:none "${LLAMA_CPP_REPO}" llama.cpp && \
 
 RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/opt/llama.cpp \
       -DGGML_NATIVE=ON \
       -DGGML_OPENMP=ON \
       -DGGML_CUDA=OFF \
