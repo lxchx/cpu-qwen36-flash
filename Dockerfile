@@ -53,7 +53,12 @@ RUN if [[ -n "${APT_MIRROR}" ]]; then \
 COPY --from=build /opt/llama.cpp/ /usr/local/
 COPY scripts/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh && ldconfig
+RUN chmod +x /entrypoint.sh && \
+    ldconfig && \
+    command -v llama-server && \
+    ldd "$(command -v llama-server)" | tee /tmp/llama-server.ldd && \
+    ! grep -q "not found" /tmp/llama-server.ldd && \
+    llama-server --version
 
 ENV MODEL_PATH=/models/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf \
     MMPROJ_PATH=/models/mmproj-F16.gguf \
