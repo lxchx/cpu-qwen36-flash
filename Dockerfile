@@ -34,8 +34,7 @@ RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DLLAMA_BUILD_TESTS=OFF \
       -DLLAMA_BUILD_EXAMPLES=OFF \
       -DLLAMA_BUILD_SERVER=ON && \
-    cmake --build /build/llama-cpu --target llama-server llama-cli -j"$(nproc)" && \
-    cmake --install /build/llama-cpu --prefix /opt/llama.cpp
+    cmake --build /build/llama-cpu --target install -j"$(nproc)"
 
 FROM ${BASE_IMAGE} AS runtime
 
