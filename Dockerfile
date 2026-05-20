@@ -50,9 +50,10 @@ RUN if [[ -n "${APT_MIRROR}" ]]; then \
 
 COPY --from=build /build/llama-cpu/bin/llama-server /usr/local/bin/llama-server
 COPY --from=build /build/llama-cpu/bin/llama-cli /usr/local/bin/llama-cli
+COPY --from=build /build/llama-cpu/bin/*.so* /usr/local/lib/
 COPY scripts/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && ldconfig
 
 ENV MODEL_PATH=/models/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf \
     MMPROJ_PATH=/models/mmproj-F16.gguf \
