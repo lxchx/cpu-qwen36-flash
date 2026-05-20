@@ -33,7 +33,8 @@ RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DLLAMA_BUILD_UI="${LLAMA_BUILD_UI}" \
       -DLLAMA_BUILD_TESTS=OFF \
       -DLLAMA_BUILD_EXAMPLES=ON && \
-    cmake --build /build/llama-cpu --target llama-server llama-cli -j"$(nproc)"
+    cmake --build /build/llama-cpu --target llama-server llama-cli -j"$(nproc)" && \
+    cmake --install /build/llama-cpu --prefix /opt/llama.cpp
 
 FROM ${BASE_IMAGE} AS runtime
 
@@ -48,9 +49,7 @@ RUN if [[ -n "${APT_MIRROR}" ]]; then \
       ca-certificates curl libgomp1 libcurl4 numactl procps && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /build/llama-cpu/bin/llama-server /usr/local/bin/llama-server
-COPY --from=build /build/llama-cpu/bin/llama-cli /usr/local/bin/llama-cli
-COPY --from=build /build/llama-cpu/bin/*.so* /usr/local/lib/
+COPY --from=build /opt/llama.cpp/ /usr/local/
 COPY scripts/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh && ldconfig
