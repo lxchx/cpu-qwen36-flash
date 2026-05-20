@@ -7,7 +7,7 @@ This package reproduces the tested path:
 - model: `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf`
 - optional vision: `mmproj-F16.gguf`
 - API: OpenAI-compatible `/v1/chat/completions`
-- llama.cpp Web UI is disabled at build time with `LLAMA_BUILD_UI=OFF` to avoid npm/HF UI asset downloads during Docker builds.
+- llama.cpp Web UI follows the upstream default and is enabled by default. Use `./scripts/build.sh --disable-ui` for offline or restricted networks.
 
 The tested machine used `-ngl 0`, `-t 10`, `-tb 10`, and no MTP. MTP was slower on CPU in the benchmark, so it is intentionally not enabled here.
 
@@ -99,6 +99,12 @@ cd qwen36-llamacpp-docker
 IMAGE=qwen36-llamacpp-cpu:00c461c ./scripts/build.sh
 ```
 
+The build script enables llama.cpp Web UI by default. For IDC/offline builds, disable it to avoid npm/HF UI asset downloads:
+
+```bash
+IMAGE=qwen36-llamacpp-cpu:00c461c ./scripts/build.sh --disable-ui
+```
+
 If Docker Hub or GitHub access is slow, use mirrors:
 
 ```bash
@@ -106,7 +112,7 @@ BASE_IMAGE=docker.1ms.run/library/ubuntu:24.04 \
 APT_MIRROR=http://mirrors.aliyun.com/ubuntu/ \
 LLAMA_CPP_REPO=https://gh-proxy.com/https://github.com/ggml-org/llama.cpp.git \
 IMAGE=qwen36-llamacpp-cpu:00c461c \
-./scripts/build.sh
+./scripts/build.sh --disable-ui
 ```
 
 If the mirror path for Ubuntu differs in your IDC, override `BASE_IMAGE` accordingly.

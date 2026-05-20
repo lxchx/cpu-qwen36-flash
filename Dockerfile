@@ -4,6 +4,7 @@ FROM ${BASE_IMAGE} AS build
 ARG APT_MIRROR=
 ARG LLAMA_CPP_REPO=https://github.com/ggml-org/llama.cpp.git
 ARG LLAMA_CPP_COMMIT=00c461ce1a9deb238eed40a8f869a72729fa3d4f
+ARG LLAMA_BUILD_UI=ON
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -29,7 +30,7 @@ RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DGGML_HIP=OFF \
       -DGGML_VULKAN=OFF \
       -DLLAMA_CURL=ON \
-      -DLLAMA_BUILD_UI=OFF \
+      -DLLAMA_BUILD_UI="${LLAMA_BUILD_UI}" \
       -DLLAMA_BUILD_TESTS=OFF \
       -DLLAMA_BUILD_EXAMPLES=ON && \
     cmake --build /build/llama-cpu --target llama-server llama-cli -j"$(nproc)"
