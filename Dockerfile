@@ -29,6 +29,7 @@ RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DGGML_HIP=OFF \
       -DGGML_VULKAN=OFF \
       -DLLAMA_CURL=ON \
+      -DLLAMA_BUILD_UI=OFF \
       -DLLAMA_BUILD_TESTS=OFF \
       -DLLAMA_BUILD_EXAMPLES=ON && \
     cmake --build /build/llama-cpu --target llama-server llama-cli -j"$(nproc)"

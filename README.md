@@ -7,6 +7,7 @@ This package reproduces the tested path:
 - model: `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf`
 - optional vision: `mmproj-F16.gguf`
 - API: OpenAI-compatible `/v1/chat/completions`
+- llama.cpp Web UI is disabled at build time with `LLAMA_BUILD_UI=OFF` to avoid npm/HF UI asset downloads during Docker builds.
 
 The tested machine used `-ngl 0`, `-t 10`, `-tb 10`, and no MTP. MTP was slower on CPU in the benchmark, so it is intentionally not enabled here.
 
