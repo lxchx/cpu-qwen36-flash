@@ -7,6 +7,8 @@ APT_MIRROR="${APT_MIRROR:-}"
 LLAMA_CPP_REPO="${LLAMA_CPP_REPO:-https://github.com/ggml-org/llama.cpp.git}"
 LLAMA_CPP_COMMIT="${LLAMA_CPP_COMMIT:-00c461ce1a9deb238eed40a8f869a72729fa3d4f}"
 LLAMA_BUILD_UI="${LLAMA_BUILD_UI:-ON}"
+GGML_NATIVE="${GGML_NATIVE:-ON}"
+LLAMA_CMAKE_EXTRA_ARGS="${LLAMA_CMAKE_EXTRA_ARGS:-}"
 
 usage() {
   cat <<'USAGE'
@@ -19,6 +21,9 @@ Environment variables:
   LLAMA_CPP_REPO     llama.cpp git repo URL.
   LLAMA_CPP_COMMIT   llama.cpp commit to checkout.
   LLAMA_BUILD_UI     ON or OFF. Default: ON.
+  GGML_NATIVE        ON or OFF. Default: ON.
+  LLAMA_CMAKE_EXTRA_ARGS
+                    Extra CMake args appended to llama.cpp configure.
 
 Use --disable-ui for offline or restricted networks because llama.cpp may
 otherwise try npm/HF Bucket asset downloads during Docker builds.
@@ -53,5 +58,7 @@ docker build \
   --build-arg LLAMA_CPP_REPO="${LLAMA_CPP_REPO}" \
   --build-arg LLAMA_CPP_COMMIT="${LLAMA_CPP_COMMIT}" \
   --build-arg LLAMA_BUILD_UI="${LLAMA_BUILD_UI}" \
+  --build-arg GGML_NATIVE="${GGML_NATIVE}" \
+  --build-arg LLAMA_CMAKE_EXTRA_ARGS="${LLAMA_CMAKE_EXTRA_ARGS}" \
   -t "${IMAGE}" \
   .

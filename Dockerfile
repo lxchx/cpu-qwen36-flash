@@ -5,6 +5,8 @@ ARG APT_MIRROR=
 ARG LLAMA_CPP_REPO=https://github.com/ggml-org/llama.cpp.git
 ARG LLAMA_CPP_COMMIT=00c461ce1a9deb238eed40a8f869a72729fa3d4f
 ARG LLAMA_BUILD_UI=ON
+ARG GGML_NATIVE=ON
+ARG LLAMA_CMAKE_EXTRA_ARGS=
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -25,7 +27,7 @@ RUN git clone --filter=blob:none "${LLAMA_CPP_REPO}" llama.cpp && \
 RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/opt/llama.cpp \
-      -DGGML_NATIVE=ON \
+      -DGGML_NATIVE="${GGML_NATIVE}" \
       -DGGML_OPENMP=ON \
       -DGGML_CUDA=OFF \
       -DGGML_HIP=OFF \
@@ -34,7 +36,8 @@ RUN cmake -S /src/llama.cpp -B /build/llama-cpu -G Ninja \
       -DLLAMA_BUILD_UI="${LLAMA_BUILD_UI}" \
       -DLLAMA_BUILD_TESTS=OFF \
       -DLLAMA_BUILD_EXAMPLES=OFF \
-      -DLLAMA_BUILD_SERVER=ON && \
+      -DLLAMA_BUILD_SERVER=ON \
+      ${LLAMA_CMAKE_EXTRA_ARGS} && \
     cmake --build /build/llama-cpu --target install -j"$(nproc)"
 
 FROM ${BASE_IMAGE} AS runtime
